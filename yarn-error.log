@@ -1,0 +1,36 @@
+Arguments: 
+  /home/andres-lnx/.nvm/versions/node/v16.17.0/bin/node /home/andres-lnx/.yarn/bin/yarn.js add cors express dotenv
+
+PATH: 
+  /home/andres-lnx/.pyenv/shims:/home/andres-lnx/.yarn/bin:/home/andres-lnx/.config/yarn/global/node_modules/.bin:/home/andres-lnx/.local/bin:/home/andres-lnx/.pyenv/bin:/home/andres-lnx/.nvm/versions/node/v16.17.0/bin:/home/andres-lnx/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/sbin:/usr/games:/usr/local/games:/snap/bin:/home/andres-lnx/Documentos:/home/andres-lnx/.pyenv/bin:/snap/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.17.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/cors: ETIMEDOUT
+      at Timeout._onTimeout (/home/andres-lnx/.yarn/lib/cli.js:141550:19)
+      at listOnTimeout (node:internal/timers:559:17)
+      at processTimers (node:internal/timers:502:7)
+
+npm manifest: 
+  {
+    "name": "rest-server",
+    "version": "0.0.1",
+    "description": "\"Example rest server\"",
+    "main": "index.js",
+    "author": "Andres Pastrana",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
