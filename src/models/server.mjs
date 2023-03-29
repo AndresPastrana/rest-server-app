@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
 import { router as userRoutes } from "../routes/user.mjs";
-
-// App endpoints
+import { router as roleRoutes } from "../routes/role.mjs";
+import { trydbConection } from "../database/conection.mjs";
+// App endpointsc
 
 class Server {
   constructor() {
@@ -12,6 +13,7 @@ class Server {
     this.paths = {
       auth: "/api/auth",
       user: "/api/user",
+      role: "/api/role",
     };
 
     // Middlewares
@@ -19,6 +21,9 @@ class Server {
 
     // App's routes
     this.routes();
+
+    // DB Conection
+    this.dbConection();
   }
 
   applyInitMiddlewares() {
@@ -39,6 +44,11 @@ class Server {
 
   routes() {
     this.app.use(this.paths.user, userRoutes);
+    this.app.use(this.paths.role, roleRoutes);
+  }
+
+  dbConection() {
+    trydbConection();
   }
 
   listen() {
