@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { router as userRoutes } from "../routes/user.mjs";
 import { router as roleRoutes } from "../routes/role.mjs";
+import { router as authRoutes } from "../routes/auth.mjs";
 import { trydbConection } from "../database/conection.mjs";
 // App endpointsc
 
@@ -45,6 +46,7 @@ class Server {
   routes() {
     this.app.use(this.paths.user, userRoutes);
     this.app.use(this.paths.role, roleRoutes);
+    this.app.use(this.paths.auth, authRoutes);
   }
 
   dbConection() {

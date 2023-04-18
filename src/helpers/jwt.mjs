@@ -1,9 +1,19 @@
 import jsonwebtoken from "jsonwebtoken";
 
 export const genJWT = (payload) => {
-  const token = jsonwebtoken.sign(payload, process.env.SECTRET_KEY);
-  console.log(token);
-  return token;
+  const options = { expiresIn: "4h" };
+  const secretOrPrivateKey = process.env.SECTRET_KEY;
+
+  return new Promise((resolve, reject) => {
+    jsonwebtoken.sign(payload, secretOrPrivateKey, options, (error, token) => {
+      return error
+        ? reject({
+            error,
+            msg: "There has been an error generatint the token",
+          })
+        : resolve(token);
+    });
+  });
 };
 
 export const refreshJWT = (token) => {};

@@ -16,6 +16,11 @@ import { checkForError } from "../middlewares/checkForErrors.mjs";
 export const router = new Router();
 
 //TODO: Middleware , just the admin can get all users  or delete a user
+
+// TODO: validate acces token for all routes
+// TODO: Append the auth_user info into the request when passes the token verification
+// TODO: Implement the middlewares isRole , mightBeRole
+// TODO: Optimizar app imports
 router.delete(
   "/:id",
   [

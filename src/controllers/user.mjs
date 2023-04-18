@@ -5,6 +5,7 @@ import RoleModel from "../models/role.mjs";
 
 export const getUsers = async (req = request, res = response) => {
   try {
+    console.log(req.headers.authorization);
     const query = { state: true };
     const { page = 1, perPage = 5 } = req.query;
 

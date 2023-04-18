@@ -30,7 +30,7 @@ const UserSchema = new Schema({
   // Nos dice si el usauario esta activo o no
   state: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   // Nos dice si el usuario creo su cuenta using Google
   google: {
@@ -42,7 +42,7 @@ const UserSchema = new Schema({
 // UserSchema.methods("toJSON", () => {});
 UserSchema.methods.toJSON = function () {
   const { __v, _id, password, ...user } = this.toObject();
-  return { id: _id, ...user };
+  return { uid: _id, ...user };
 };
 
 UserSchema.statics.pagination = async function (perPage, page, query) {
