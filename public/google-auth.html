@@ -14,7 +14,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         function handleCredentialResponse(response) {
-            console.log("Encoded JWT ID token: " + response.credential);
+            // TODO: handle the env or prod url
             const body = JSON.stringify({ id_token: response.credential })
             console.log(`Body ${body}`);
             fetch("http://localhost:2400/api/auth/google", {
@@ -26,7 +26,6 @@
             })
                 .then(resp => resp.json())
                 .then(data => {
-                    console.log("data");
                     console.log(data);
                 })
                 .catch((err) => {

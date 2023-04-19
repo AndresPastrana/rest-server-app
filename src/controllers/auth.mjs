@@ -39,10 +39,30 @@ export const login = async (req = request, resp = response) => {
   }
 };
 
-export const googleSignIn = (req, resp) => {
-  const { user } = req;
-  return resp.json({
-    data: "Hola !!!!!!!!!!!!!",
-    user,
-  });
+export const googleSignIn = async (req, resp) => {
+  try {
+    const { email, picture: img, name } = req.body;
+
+    const query = { email, state: true };
+    let user = await UserModel.findOne(query);
+    if (!user) {
+      user = new UserModel({
+        email,
+        google: true,
+        url_avatar: img,
+        name,
+        password: ":P",
+      });
+      await user.save();
+    }
+
+    // TODO:generate token if the password is right
+    const token = await genJWT({ id: user._id });
+    return resp.json({
+      token,
+      user,
+    });
+  } catch (error) {
+    resp.json(error);
+  }
 };
