@@ -35,7 +35,9 @@ class Server {
         methods: ["GET", "PUT", "POST", "DELETE"],
       })
     );
-
+    this.app.use("/ping", (req, resp) => {
+      return resp.status(200).json({ ok: "PONG !" });
+    });
     // Lectura y parseo a JSON del body
     this.app.use(express.json());
 
