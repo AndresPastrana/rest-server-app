@@ -25,7 +25,7 @@ export const trydbConection = async () => {
     });
 
     // Initial conection
-    await mongoose.connect(process.env.DEV_MONGO_CDN, {
+    await mongoose.connect(process.env.MONGO_CDN, {
       autoCreate: true,
       bufferCommands: true,
     });

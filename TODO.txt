@@ -1,0 +1,3 @@
+-2 Deploy my app on render
+-3 Allow my remote addressto use google auth
+-4 Handle the url when i get the id token
