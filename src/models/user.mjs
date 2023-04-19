@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 import { calculateTotalPages } from "../helpers/db.mjs";
 // This will be the model that will interact with the ORM of our choice
 // sequilize , mongoose , etc
@@ -25,6 +25,7 @@ const UserSchema = new Schema({
   role: {
     type: Schema.Types.ObjectId,
     rel: "Role",
+    default: new Types.ObjectId("643f4a3f4ee8a98ff8f58906"),
   },
 
   // Nos dice si el usauario esta activo o no

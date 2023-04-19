@@ -41,8 +41,8 @@ export const getUsers = async (req = request, res = response) => {
 
 export const postUser = async (req = request, res = response) => {
   try {
-    const { name, email, password, role } = req.body;
-    const userDoc = new UserModel({ name, email, password, role });
+    const { name, email, password } = req.body;
+    const userDoc = new UserModel({ name, email, password });
 
     // Hash User password
     userDoc.password = bcrypt.hashSync(password, 10);

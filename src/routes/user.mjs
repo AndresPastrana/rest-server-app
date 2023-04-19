@@ -43,7 +43,7 @@ router.post(
     body("email", "Invalid value").isEmail().custom(existEmail),
     body("password", "Invalid value").isStrongPassword(),
     // TODO: role validation
-    body("role").custom(isValidRole),
+    // body("role").custom(isValidRole),
     checkForError,
   ],
   postUser
