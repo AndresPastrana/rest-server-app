@@ -14,10 +14,13 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         function handleCredentialResponse(response) {
-            // TODO: handle the env or prod url
+            const url =
+                window.location.host.includes("localhost") ?
+                    "http://localhost:2400/api/auth/google" :
+                    "https://coffe-app-a1t6.onrender.com/api/auth/google"
             const body = JSON.stringify({ id_token: response.credential })
-            console.log(`Body ${body}`);
-            fetch("http://localhost:2400/api/auth/google", {
+            console.log(url);
+            fetch(url, {
                 headers: {
                     "Content-Type": "application/json"
                 },
