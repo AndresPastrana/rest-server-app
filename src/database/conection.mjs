@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export const trydbConection = async () => {
   // Initial conection
-  const CDN = process.env.MONGO_CDN_DEV || process.env.MONGO_CDN_DEV;
+  const CDN = process.env.MONGO_CDN_DEV || process.env.MONGO_CDN;
   try {
     // Conection events handlers
     mongoose.connection.on("connecting", () => {
