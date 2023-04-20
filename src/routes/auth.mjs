@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { body, check } from "express-validator";
-import { googleSignIn, login } from "../controllers/auth.mjs";
+import { body } from "express-validator";
+import { AuthController } from "../controllers/index.mjs";
+import { existEmail } from "../middlewares/db-validator.mjs";
 import { verifyGoogleToken } from "../middlewares/auth.mjs";
 import { checkForError } from "../middlewares/checkForErrors.mjs";
-import { existEmail } from "../middlewares/db-validator.mjs";
 
 export const router = new Router();
 router.post(
@@ -13,7 +13,7 @@ router.post(
     body("password", "Password is required").notEmpty(),
     checkForError,
   ],
-  login
+  AuthController.login
 );
 
 router.post(
@@ -23,5 +23,5 @@ router.post(
     checkForError,
     verifyGoogleToken,
   ],
-  googleSignIn
+  AuthController.googleSignIn
 );

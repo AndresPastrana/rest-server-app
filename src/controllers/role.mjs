@@ -1,7 +1,7 @@
 import { request, response } from "express";
 import RoleModel from "../models/role.mjs";
 
-export const getRoles = async (req = request, res = response) => {
+const getRoles = async (req = request, res = response) => {
   try {
     const roles = await RoleModel.find();
     return res.json({ data: roles });
@@ -13,7 +13,7 @@ export const getRoles = async (req = request, res = response) => {
   }
 };
 
-export const postRole = async (req = request, res = response) => {
+const postRole = async (req = request, res = response) => {
   const { body } = req;
   try {
     const roleDoc = new RoleModel(body);
@@ -30,3 +30,10 @@ export const postRole = async (req = request, res = response) => {
     });
   }
 };
+
+const RoleController = Object.seal({
+  getRoles,
+  postRole,
+});
+// We should prevent the modify of the controller's function from outside
+export default RoleController;

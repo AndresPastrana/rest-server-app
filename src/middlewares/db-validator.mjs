@@ -1,3 +1,4 @@
+import CategoryModel from "../models/category.mjs";
 import RoleModel from "../models/role.mjs";
 import UserModel from "../models/user.mjs";
 
@@ -28,4 +29,22 @@ export const isValidRole = async (id = "") => {
   if (!existe) {
     throw new Error("Invalid role");
   }
+};
+
+export const existCategory = (b = false) => {
+  return async (req, resp, next) => {
+    const { name } = req.body;
+    const category = await CategoryModel.findOne({ name });
+
+    // Bloquear la peticion si la categoria existe
+    if (b && category) return resp.json({ msg: "This category alredy exist" });
+
+    if (b && !category) return next();
+
+    // Bloquear la peticion si la categoria no existe
+    if (!category)
+      return resp.status(400).json({ msg: "tThe category does not exist" });
+
+    next();
+  };
 };

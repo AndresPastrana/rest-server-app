@@ -1,11 +1,6 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import {
-  getUsers,
-  postUser,
-  putUser,
-  deleteUser,
-} from "../controllers/user.mjs";
+import UserController from "../controllers/user.mjs";
 import {
   existEmail,
   isValidRole,
@@ -26,11 +21,10 @@ router.delete(
   [
     param("id", "Not a valid MongoID").isMongoId(),
     param("id").custom(existUser),
-    checkForError,
   ],
-  deleteUser
+  UserController.deleteUser
 );
-router.get("/", [], getUsers);
+router.get("/", [], UserController.getUsers);
 
 router.post(
   "/",
@@ -46,7 +40,7 @@ router.post(
     // body("role").custom(isValidRole),
     checkForError,
   ],
-  postUser
+  UserController.postUser
 );
 router.put(
   "/:id/",
@@ -55,5 +49,5 @@ router.put(
     body("role").custom(isValidRole),
     checkForError,
   ],
-  putUser
+  UserController.putUser
 );

@@ -3,7 +3,7 @@ import { request, response } from "express";
 import { compareSync } from "bcrypt";
 import { genJWT } from "../helpers/jwt.mjs";
 
-export const login = async (req = request, resp = response) => {
+const login = async (req = request, resp = response) => {
   try {
     const { email, password } = req.body;
     const query = { email, state: true };
@@ -27,8 +27,7 @@ export const login = async (req = request, resp = response) => {
 
     // TODO:generate token if the password is right
 
-    const token = await genJWT({ id: user._id });
-    console.log(token);
+    const token = await genJWT({ uid: user._id.toString() });
     return resp.json({
       token,
       user,
@@ -39,7 +38,7 @@ export const login = async (req = request, resp = response) => {
   }
 };
 
-export const googleSignIn = async (req, resp) => {
+const googleSignIn = async (req, resp) => {
   try {
     const { email, picture: img, name } = req.body;
 
@@ -57,7 +56,7 @@ export const googleSignIn = async (req, resp) => {
     }
 
     // TODO:generate token if the password is right
-    const token = await genJWT({ id: user._id });
+    const token = await genJWT({ uid: user._id.toString() });
     return resp.json({
       token,
       user,
@@ -66,3 +65,10 @@ export const googleSignIn = async (req, resp) => {
     resp.json(error);
   }
 };
+
+const AuthController = Object.seal({
+  login,
+  googleSignIn,
+});
+
+export default AuthController;

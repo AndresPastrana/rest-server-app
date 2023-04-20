@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 
 export const trydbConection = async () => {
+  // Initial conection
+  const CDN = process.env.MONGO_CDN_DEV || process.env.MONGO_CDN_DEV;
   try {
     // Conection events handlers
     mongoose.connection.on("connecting", () => {
@@ -24,8 +26,7 @@ export const trydbConection = async () => {
       console.error("Error conecting to the database");
     });
 
-    // Initial conection
-    await mongoose.connect(process.env.MONGO_CDN, {
+    await mongoose.connect(CDN, {
       autoCreate: true,
       bufferCommands: true,
     });

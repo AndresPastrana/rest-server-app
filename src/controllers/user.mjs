@@ -2,8 +2,9 @@ import { request, response } from "express";
 import bcrypt from "bcrypt";
 import UserModel from "../models/user.mjs";
 import RoleModel from "../models/role.mjs";
+import { genJWT } from "../helpers/jwt.mjs";
 
-export const getUsers = async (req = request, res = response) => {
+const getUsers = async (req = request, res = response) => {
   try {
     console.log(req.headers.authorization);
     const query = { state: true };
@@ -39,7 +40,7 @@ export const getUsers = async (req = request, res = response) => {
   }
 };
 
-export const postUser = async (req = request, res = response) => {
+const postUser = async (req = request, res = response) => {
   try {
     const { name, email, password } = req.body;
     const userDoc = new UserModel({ name, email, password });
@@ -48,14 +49,15 @@ export const postUser = async (req = request, res = response) => {
     userDoc.password = bcrypt.hashSync(password, 10);
 
     // Save user
-    const user = await userDoc.save();
+    await userDoc.save();
 
     //TODO: Generate token
-    const token = "tyr5645asdas";
+    const token = await genJWT({ uid: userDoc._id.toString() });
 
     return res.status(201).json({
       data: {
         token,
+        userDoc,
       },
       msg: "Inserted successfully",
     });
@@ -65,7 +67,7 @@ export const postUser = async (req = request, res = response) => {
   }
 };
 
-export const putUser = async (req = request, res = response) => {
+const putUser = async (req = request, res = response) => {
   try {
     const { params, body } = req;
     const { email = "", password = "", google = "", ...rest } = body;
@@ -80,7 +82,7 @@ export const putUser = async (req = request, res = response) => {
   }
 };
 
-export const deleteUser = async (req = request, res = response) => {
+const deleteUser = async (req = request, res = response) => {
   const { params } = req;
   const { id } = params;
   const userDoc = await UserModel.findById(id);
@@ -90,3 +92,12 @@ export const deleteUser = async (req = request, res = response) => {
     data: savedDoc,
   });
 };
+
+const UserController = Object.seal({
+  postUser,
+  getUsers,
+  putUser,
+  deleteUser,
+});
+
+export default UserController;
