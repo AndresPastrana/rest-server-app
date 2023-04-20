@@ -31,20 +31,40 @@ export const isValidRole = async (id = "") => {
   }
 };
 
-export const existCategory = (b = false) => {
+export const isRole = (wantsBoBeRole) => {
   return async (req, resp, next) => {
-    const { name } = req.body;
-    const category = await CategoryModel.findOne({ name });
+    const { role } = req.user;
+    const { role_name } = await RoleModel.findById(role);
+
+    if (wantsBoBeRole !== role_name) {
+      return resp.status(401).json({
+        msg: "Unathorized operation, just an admin can delete a category",
+      });
+    }
+    next();
+  };
+};
+
+export const existCategory = (b = false, serachBy = "id") => {
+  return async (req, resp, next) => {
+    let category;
+    if (serachBy === "name") {
+      const { name } = req.body;
+      category = await CategoryModel.findOne({ name });
+    }
+    if (serachBy === "id") {
+      const { id } = req.params;
+      category = await CategoryModel.findById(id);
+    }
 
     // Bloquear la peticion si la categoria existe
     if (b && category) return resp.json({ msg: "This category alredy exist" });
-
     if (b && !category) return next();
 
     // Bloquear la peticion si la categoria no existe
     if (!category)
-      return resp.status(400).json({ msg: "tThe category does not exist" });
-
+      return resp.status(400).json({ msg: "The category does not exist" });
+    req.category = category;
     next();
   };
 };

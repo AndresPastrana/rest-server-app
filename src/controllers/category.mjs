@@ -1,34 +1,81 @@
 import { request, response } from "express";
-import { Types } from "mongoose";
 import CategoryModel from "../models/category.mjs";
-// TODO:
-// 1 obtener todas categorias con la info del usuario paginado
-const getCategories = (req = request, resp = response) => {
-  try {
-  } catch (error) {}
-};
-// 2 Obtener category by id in the search params
-const getCategoryById = (req = request, resp = response) => {
-  try {
-  } catch (error) {}
-};
-// 3 Update category
-const updateCategoryById = (req = request, resp = response) => {
-  try {
-  } catch (error) {}
-};
-// 4 Borrar category (change the state)
-const deleteCategoryById = (req = request, resp = response) => {
-  try {
-  } catch (error) {}
+
+const getCategories = async (req = request, resp = response) => {
+  const { perPage = 5, page = 0 } = req.query;
+  const query = { state: true };
+  const {
+    totalCategories,
+    pages,
+    skip,
+    page: currentPage,
+  } = await CategoryModel.pagination(perPage, page, query);
+  const categories = await CategoryModel.find(query)
+    .skip(skip)
+    .limit(perPage)
+    .populate("user", "name");
+
+  return resp.status(200).json({
+    data: {
+      categories,
+      pagination: {
+        pages,
+        currentPage,
+        totalCategories,
+        perPage,
+      },
+    },
+  });
 };
 
-// Insert category
+const getCategoryById = async (req = request, resp = response) => {
+  try {
+    const { id = "" } = req.params;
+    const query = { state: true, _id: id };
+    const category = await CategoryModel.findOne(query).populate("user", [
+      "name",
+    ]);
+
+    return resp.json({ category });
+  } catch (error) {
+    return resp.status(500).json({ error });
+  }
+};
+
+const updateCategoryById = async (req = request, resp = response) => {
+  try {
+    const { user, category } = req;
+    const { name } = req.body;
+
+    if (name !== category.name) {
+      category.name = name;
+      category.user = user._id;
+      await category.save();
+    }
+    return resp.json({ category });
+  } catch (error) {
+    console.log(error);
+    return resp.status(500).json({ error });
+  }
+};
+
+const deleteCategoryById = async (req = request, resp = response) => {
+  try {
+    const { user, category } = req;
+    category.state = false;
+    category.user = user._id;
+    await category.save();
+    return resp.json({ category });
+  } catch (error) {
+    console.log(error);
+    return resp.status(500).json({ msg: "Internal server error" });
+  }
+};
+
 const insertCategory = async (req, resp) => {
   try {
-    const _id = new Types.ObjectId(req.user.uid);
     const { name = "" } = req.body;
-
+    const { _id } = req.user;
     const newCategory = new CategoryModel({
       name,
       user: _id,
@@ -40,6 +87,7 @@ const insertCategory = async (req, resp) => {
       data: newCategory,
     });
   } catch (error) {
+    console.log(error);
     return resp.status(500).json({ msg: "Internal server error" });
   }
 };

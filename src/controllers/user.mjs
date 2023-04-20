@@ -19,8 +19,8 @@ const getUsers = async (req = request, res = response) => {
     } = await UserModel.pagination(perPage, page, query);
 
     const users = await UserModel.find(query)
-      .skip(Number(skip))
-      .limit(Number(perPage))
+      .skip(skip)
+      .limit(perPage)
       .populate("role", "role_name", RoleModel);
 
     return res.status(200).json({
