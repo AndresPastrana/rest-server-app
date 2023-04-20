@@ -24,7 +24,7 @@ const UserSchema = new Schema({
   },
   role: {
     type: Schema.Types.ObjectId,
-    default: new Types.ObjectId("64243c45311f7821ba18c5e5"),
+    default: new Types.ObjectId("643f4a3f4ee8a98ff8f58906"),
     rel: "Role",
   },
 
