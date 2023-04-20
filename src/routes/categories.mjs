@@ -45,7 +45,7 @@ router.delete(
     param("id", "Invalid id").isMongoId(),
     checkForError,
     verifyJWT,
-    existCategory(true),
+    existCategory(false, "id"),
     isRole("USER"),
   ],
   CategoryController.deleteCategoryById
