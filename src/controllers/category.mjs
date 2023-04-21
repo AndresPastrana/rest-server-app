@@ -30,11 +30,8 @@ const getCategories = async (req = request, resp = response) => {
 
 const getCategoryById = async (req = request, resp = response) => {
   try {
-    const { id = "" } = req.params;
-    const query = { state: true, _id: id };
-    const category = await CategoryModel.findOne(query).populate("user", [
-      "name",
-    ]);
+    const { category } = req;
+    await category.populate("user", ["name"]);
 
     return resp.json({ category });
   } catch (error) {

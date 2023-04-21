@@ -10,7 +10,11 @@ export const router = new Router();
 router.get("/", [], CategoryController.getCategories);
 router.get(
   "/:id",
-  [param("id", "Invalid id").isMongoId(), checkForError],
+  [
+    param("id", "Invalid id").isMongoId(),
+    checkForError,
+    existCategory(false, "id"),
+  ],
   CategoryController.getCategoryById
 );
 
@@ -28,7 +32,7 @@ router.post(
 router.put(
   "/:id",
   [
-    param("id", "The category is required as an url param").isMongoId(),
+    param("id", "Inavlid id").isMongoId(),
     body("name", "The name is required").notEmpty(),
     checkForError,
     verifyJWT,

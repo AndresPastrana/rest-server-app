@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import CategoryModel from "../models/category.mjs";
 import RoleModel from "../models/role.mjs";
 import UserModel from "../models/user.mjs";
@@ -54,7 +55,11 @@ export const existCategory = (b = false, serachBy = "id") => {
     }
     if (serachBy === "id") {
       const { id } = req.params;
-      category = await CategoryModel.findById(id);
+
+      category = await CategoryModel.findOne({
+        state: true,
+        _id: new Types.ObjectId(id),
+      });
     }
 
     // Bloquear la peticion si la categoria existe
