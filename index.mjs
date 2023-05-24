@@ -4,7 +4,7 @@ dotenv.config();
 const server = new Server();
 server.listen();
 
-// TODO:
-// 1 Finalizar la paginacion , solamente usauarios con estate+ true
-// Delete users , validaciones
-// Estudiar varaible de entorno
+// TODO: Finish the product endponit
+
+// TODO: Do the serach endpont path api/:collection/:termino
+// Solamnete buscar en las colecciones permitidas
