@@ -57,7 +57,7 @@ class Server {
   }
 
   dbConection() {
-    trydbConection();
+    trydbConection(this.app.get('env'));
   }
 
   listen() {

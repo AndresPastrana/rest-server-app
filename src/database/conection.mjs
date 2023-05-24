@@ -1,7 +1,14 @@
 import mongoose from "mongoose";
 
-export const trydbConection = async () => {
+export const trydbConection = async (env) => {
   // Initial conection
+  let cdn;
+  if (env === 'development') {
+    cdn = process.env.MONGO_CDN_DEV;
+  }
+  if (env === 'production') {
+    cdn = process.env.MONGO_CDN;
+  }
 
   try {
     // Conection events handlers
@@ -9,7 +16,7 @@ export const trydbConection = async () => {
       console.log("DB : Starting connection....");
     });
     mongoose.connection.on("connected", () => {
-      console.log("DB : Initial connection stablished .");
+      console.log("DB : Initial connection stablished" + " (" + env +") " );
     });
 
     mongoose.connection.on("reconnected", () => {
@@ -26,7 +33,7 @@ export const trydbConection = async () => {
       console.error("Error conecting to the database");
     });
 
-    await mongoose.connect(process.env.MONGO_CDN, {
+    await mongoose.connect(cdn, {
       autoCreate: true,
       bufferCommands: true,
     });
