@@ -1,15 +1,16 @@
 import { request, response } from "express";
+import { pagination } from "../helpers/db.mjs";
 import CategoryModel from "../models/category.mjs";
 
 const getCategories = async (req = request, resp = response) => {
   const { perPage = 5, page = 0 } = req.query;
   const query = { state: true };
   const {
-    totalCategories,
+    totalDocs,
     pages,
     skip,
     page: currentPage,
-  } = await CategoryModel.pagination(perPage, page, query);
+  } = await pagination(CategoryModel,perPage, page, query);
   const categories = await CategoryModel.find(query)
     .skip(skip)
     .limit(perPage)
@@ -21,7 +22,7 @@ const getCategories = async (req = request, resp = response) => {
       pagination: {
         pages,
         currentPage,
-        totalCategories,
+        totalDocs,
         perPage,
       },
     },

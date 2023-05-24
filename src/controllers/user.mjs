@@ -3,20 +3,19 @@ import bcrypt from "bcrypt";
 import UserModel from "../models/user.mjs";
 import RoleModel from "../models/role.mjs";
 import { genJWT } from "../helpers/jwt.mjs";
+import { pagination } from "../helpers/db.mjs";
 
 const getUsers = async (req = request, res = response) => {
   try {
-    console.log(req.headers.authorization);
     const query = { state: true };
     const { page = 1, perPage = 5 } = req.query;
 
-    // TODO: Validaciones pagination
     const {
-      totalUsers,
+      totalDocs,
       pages,
       skip,
       page: currentPage,
-    } = await UserModel.pagination(perPage, page, query);
+    } = await pagination(UserModel,perPage, page, query);
 
     const users = await UserModel.find(query)
       .skip(skip)
@@ -29,7 +28,7 @@ const getUsers = async (req = request, res = response) => {
         pagination: {
           pages,
           currentPage,
-          totalUsers,
+          totalDocs,
           perPage,
         },
       },
