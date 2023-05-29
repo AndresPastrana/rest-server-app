@@ -3,7 +3,7 @@ import { body, param } from "express-validator";
 import { ProductoController } from "../controllers/index.mjs";
 import { verifyJWT } from "../middlewares/auth.mjs";
 import { checkForError } from "../middlewares/checkForErrors.mjs";
-import { existCategory, existProduct, isRole } from "../middlewares/db-validator.mjs";
+import { existCategory, existProduct, existProductByName, isRole } from "../middlewares/db-validator.mjs";
 
 export const router = new Router();
 
@@ -27,6 +27,7 @@ router.post(
     checkForError,
     // TODO: existeProducto
     existCategory(),
+    existProductByName
   ],
   ProductoController.insertProducto
 );

@@ -82,6 +82,9 @@ export const existCategory = (b = false, serachBy = "id") => {
   };
 };
 
+// TODO:
+// Make a function to block a request if a document exist or not
+// Will recive : blockIf : 'exist' | 'notExist' 
 export const existProduct = async (req,resp,next)=>{
   const {id} =req.params;
   const query = {_id: new Types.ObjectId(id),state: true};
@@ -90,6 +93,19 @@ export const existProduct = async (req,resp,next)=>{
    return resp.status(404).json({msg: "Product not found"})
   }
   req.product = product;
+  
+  return next();
+}
+
+export const existProductByName = async (req,resp,next)=>{
+  const {name} =req.body;
+  const query = {name,state: true};
+  const product = await ProductoModel.findOne(query);
+
+  if (product) {
+   return resp.status(400).json({msg: "This product alredy exist"})
+  }
+
   
   return next();
 }
