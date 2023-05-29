@@ -6,6 +6,7 @@ import {
   roleRouter,
   categoriesRouter,
   productRouter,
+  searchRouter,
 } from "../routes/index.mjs";
 import { trydbConection } from "../database/conection.mjs";
 // App endpointsc
@@ -20,7 +21,8 @@ class Server {
       user: "/api/user",
       role: "/api/role",
       categories: "/api/categories",
-      prodcuts: "/api/product"
+      prodcuts: "/api/product",
+      search: "/api/search"
     };
 
     // Middlewares
@@ -57,6 +59,7 @@ class Server {
     this.app.use(this.paths.auth, authRouter);
     this.app.use(this.paths.categories, categoriesRouter);
     this.app.use(this.paths.prodcuts, productRouter);
+    this.app.use(this.paths.search,searchRouter)
   }
 
   dbConection() {
