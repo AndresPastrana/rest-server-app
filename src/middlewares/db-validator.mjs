@@ -111,6 +111,13 @@ export const existProductByName = async (req,resp,next)=>{
 }
 
 
+export const  validCollections=(collections)=>{
+      return (param)=>{
+        if (!collections.includes(param)) throw new Error("Invalid collection");
+        return true;
+      }
+}
+
 // export const existProduct = (b = false, serachBy = "id") => {
 //   return async (req, resp, next) => {
 //     let product;

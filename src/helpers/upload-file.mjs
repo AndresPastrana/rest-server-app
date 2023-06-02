@@ -11,9 +11,16 @@ export const uploadFile = (req, resp) => {
 
             // No file sended
             if (!req.file) return reject({ error: "There is no a file to upload" });
-
-            req.file.url = `http://localhost:2500/uploads/${req.file.filename}`;
+            const relativeFolder = getRelativeFolder(req.file);
+            req.file.url = `http://localhost:2500/uploads/${relativeFolder}${req.file.filename}`;
             return resolve(req.file);
         });
     })
+}
+
+const getRelativeFolder = (file) => {
+    const { destination } = file;
+    const relativeFolder = destination.split('uploads/')[1];
+  
+    return relativeFolder;
 }
